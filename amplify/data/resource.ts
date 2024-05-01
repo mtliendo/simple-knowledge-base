@@ -14,18 +14,21 @@ const schema = a.schema({
 	generateTextFromPrompt: a
 		.mutation()
 		.arguments({
-			text: a.string(),
-			bucketName: a.string(),
-			fileName: a.string(),
+			text: a.string().required(),
+			sessionId: a.string(),
 		})
-		.returns(a.string())
-		.authorization((allow) => [allow.guest(), allow.authenticated()])
+		.returns(a.ref('BedrockResponse'))
+		.authorization((allow) => [allow.publicApiKey(), allow.authenticated()])
 		.handler(
 			a.handler.custom({
 				dataSource: 'BedrockHTTPDS',
 				entry: './retrieveAndGenerate.js',
 			})
 		),
+	BedrockResponse: a.customType({
+		text: a.string().required(),
+		sessionId: a.string().required(),
+	}),
 })
 
 export type Schema = ClientSchema<typeof schema>
@@ -33,6 +36,9 @@ export type Schema = ClientSchema<typeof schema>
 export const data = defineData({
 	schema,
 	authorizationModes: {
-		defaultAuthorizationMode: 'iam',
+		defaultAuthorizationMode: 'apiKey',
+		apiKeyAuthorizationMode: {
+			expiresInDays: 14,
+		},
 	},
 })

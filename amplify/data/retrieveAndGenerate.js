@@ -17,7 +17,7 @@ export function request(ctx) {
 						sources: [
 							{
 								s3Location: {
-									uri: `s3://${ctx.args.bucketName}/skillset/${ctx.args.fileName}`,
+									uri: ctx.env.bucketUri,
 								},
 								sourceType: 'S3',
 							},
@@ -25,12 +25,17 @@ export function request(ctx) {
 					},
 					type: 'EXTERNAL_SOURCES',
 				},
+				sessionId: ctx.args.sessionId ?? null,
 			},
 		},
 	}
 }
 export function response(ctx) {
-	console.log(JSON.parse(ctx.result.body))
-	return JSON.parse(ctx.result.body).citations[0].generatedResponsePart
-		.textResponsePart.text
+	const parsedBody = JSON.parse(ctx.result.body)
+	const res = {
+		text: parsedBody.citations[0].generatedResponsePart.textResponsePart.text,
+		sessionId: parsedBody.sessionId,
+	}
+	console.log(res)
+	return res
 }

@@ -12,6 +12,16 @@ const backend = defineBackend({
 	data,
 	storage,
 })
+const fileDirectoryName = 'skillset'
+const fileName = 'setlist.csv'
+
+backend.data.resources.cfnResources.cfnGraphqlApi.environmentVariables = {
+	bucketUri: `s3://${backend.storage.resources.bucket.bucketName}/${fileDirectoryName}/${fileName}`,
+}
+
+backend.addOutput({
+	custom: { fileName },
+})
 
 const bedrockKBDatasource = backend.data.addHttpDataSource(
 	'BedrockHTTPDS',
