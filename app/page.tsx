@@ -6,7 +6,7 @@ import { FormEvent, useState } from 'react'
 import { generateClient } from 'aws-amplify/data'
 import { v4 } from 'uuid'
 import { clsx } from 'clsx'
-import amplifyconfig from '@/amplifyconfiguration.json'
+import amplifyconfig from '@/amplify_outputs.json'
 import Link from 'next/link'
 
 Amplify.configure(amplifyconfig)
@@ -39,10 +39,15 @@ export default function ChatPage() {
 		setMsgs([...msgs, userMessage])
 
 		try {
-			const { data } = await client.mutations.generateTextFromPrompt({
-				text: msgText,
-				sessionId,
-			})
+			const { data } = await client.mutations.generateTextFromPrompt(
+				{
+					text: msgText,
+					sessionId,
+				},
+				{
+					authMode: 'apiKey',
+				}
+			)
 
 			setSessionId(data?.sessionId!)
 

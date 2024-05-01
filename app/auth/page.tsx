@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import amplifyconfig from '@/amplifyconfiguration.json'
+import amplifyconfig from '@/amplify_outputs.json'
 import { StorageManager } from '@aws-amplify/ui-react-storage'
 import { withAuthenticator } from '@aws-amplify/ui-react'
 import { Amplify } from 'aws-amplify'

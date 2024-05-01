@@ -26,8 +26,14 @@ const schema = a.schema({
 			})
 		),
 	BedrockResponse: a.customType({
-		text: a.string().required(),
-		sessionId: a.string().required(),
+		text: a
+			.string()
+			.required()
+			.authorization((allow) => [allow.publicApiKey(), allow.authenticated()]),
+		sessionId: a
+			.string()
+			.required()
+			.authorization((allow) => [allow.publicApiKey(), allow.authenticated()]),
 	}),
 })
 
@@ -36,7 +42,7 @@ export type Schema = ClientSchema<typeof schema>
 export const data = defineData({
 	schema,
 	authorizationModes: {
-		defaultAuthorizationMode: 'apiKey',
+		defaultAuthorizationMode: 'userPool',
 		apiKeyAuthorizationMode: {
 			expiresInDays: 14,
 		},
