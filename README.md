@@ -1,36 +1,32 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Simple Knowledge base
+
+This is a [Amplify Gen2](https://docs.amplify.aws/react/) chat app project based on Nextjs integrating [AWS Bedbrock](https://aws.amazon.com/bedrock) RAG `Retrieval Augmented Generation` as a knowledge base. Think adding you own data to an Ai query!
 
 ## Getting Started
 
-First, run the development server:
+First, install npm dependencies:
+
+```bash
+npx i
+```
+
+Second, deploy the amplify sandbox:
+
+```bash
+npx ampx sandbox
+```
+Third, start the Nextjs dev env:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## OR
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Upload the starter csv file and start dev env
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+npm run uploadDev
+```
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+This chat app will allow you to query your sample data in the csv. for example `Do you know of any carpenters?` and the LLM will return a response augmented with relevant information from your sample data. The app also allows you to upload a new CSV file via the `manage data` menu.
