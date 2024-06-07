@@ -15,6 +15,15 @@ Second, deploy the amplify sandbox:
 ```bash
 npx ampx sandbox
 ```
+
+**Make Sure to change
+
+```js
+const AWS_REGION = 'us-west-2'
+```
+
+in the `/amplify/backend.ts` file to match the region in your credentials file.
+
 Third, start the Nextjs dev env:
 
 ```bash
