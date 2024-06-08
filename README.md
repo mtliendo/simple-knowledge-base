@@ -7,7 +7,7 @@ This is a [Amplify Gen2](https://docs.amplify.aws/react/) chat app project based
 First, install npm dependencies:
 
 ```bash
-npx i
+npm i
 ```
 
 Second, deploy the amplify sandbox:
@@ -32,7 +32,7 @@ npm run dev
 
 ## OR
 
-Upload the starter csv file and start dev env
+Upload the starter `setlist.csv` file and start dev env
 
 ```bash
 npm run uploadDev
