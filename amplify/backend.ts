@@ -14,6 +14,8 @@ const backend = defineBackend({
 })
 const fileDirectoryName = 'skillset'
 const fileName = 'setlist.csv'
+
+//Set to region of credentials used to deploy sandbox
 const AWS_REGION = 'us-west-2'
 
 backend.data.resources.cfnResources.cfnGraphqlApi.environmentVariables = {
