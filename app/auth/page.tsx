@@ -9,7 +9,7 @@ import Link from 'next/link'
 Amplify.configure(amplifyconfig)
 const fileName = amplifyconfig.custom.fileName
 
-function AuthPage({ signOut }) {
+function AuthPage({ signOut }: { signOut: () => {} }) {
 	return (
 		<div>
 			<header className="bg-gray-900 text-white py-4 px-6 items-center">

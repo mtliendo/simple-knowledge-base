@@ -22,7 +22,7 @@ export default function ChatPage() {
 		{
 			id: '1',
 			author: 'Bot',
-			text: 'Hey! I know a lot of stuff about a file called "setlist" feel free to ask my any questions about it! You can even ask followup questions as well!',
+			text: 'Hey! I know a lot of stuff about services going on in your neighborhood! You can even ask followup questions as well!',
 		},
 	])
 	const [sessionId, setSessionId] = useState<null | string>(null)
