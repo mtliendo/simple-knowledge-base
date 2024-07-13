@@ -8,16 +8,16 @@ import { v4 } from 'uuid'
 import { clsx } from 'clsx'
 import amplifyconfig from '@/amplify_outputs.json'
 import Link from 'next/link'
-import {Loader} from "@aws-amplify/ui-react"
+import { Loader, withAuthenticator } from '@aws-amplify/ui-react'
 
 Amplify.configure(amplifyconfig)
 
 type msgObj = { id: string; author: 'me' | 'Bot'; text: string }
 
-export default function ChatPage() {
+function ChatPage() {
 	const client = generateClient<Schema>()
 	const [msgText, setMsgText] = useState('')
-	const [isLoading,setIsLoading] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
 	const [msgs, setMsgs] = useState<Array<msgObj>>([
 		{
 			id: '1',
@@ -41,44 +41,44 @@ export default function ChatPage() {
 		setMsgs([...msgs, userMessage])
 
 		try {
-			const { data,errors} = await client.mutations.generateTextFromPrompt(
+			const { data, errors } = await client.mutations.generateTextFromPrompt(
 				{
 					text: msgText,
 					sessionId,
 				},
 				{
-					authMode: 'apiKey',
+					authMode: 'userPool',
 				}
 			)
 
-			if(data){
-			setSessionId(data?.sessionId!)
+			if (data) {
+				setSessionId(data?.sessionId!)
 
-			// Combine the initial state change with the updated state
-			setMsgs((prevMsgs) => [
-				...prevMsgs,
-				{
-					id: v4(),
-					author: 'Bot',
-					text: data?.text!,
-				} as msgObj,
-			])
-			setIsLoading(false)
-		}
-		if (errors) {
-			console.error('Error generating text from prompt:', errors)
-			setMsgs((prevMsgs) => [
-				...prevMsgs,
-				{
-					id: v4(),
-					author: 'Bot',
-					text: "Something went wrong",
-				} as msgObj,
-			])
-			setSessionId(null)
-			setIsLoading(false)
-			return
-		}
+				// Combine the initial state change with the updated state
+				setMsgs((prevMsgs) => [
+					...prevMsgs,
+					{
+						id: v4(),
+						author: 'Bot',
+						text: data?.text!,
+					} as msgObj,
+				])
+				setIsLoading(false)
+			}
+			if (errors) {
+				console.error('Error generating text from prompt:', errors)
+				setMsgs((prevMsgs) => [
+					...prevMsgs,
+					{
+						id: v4(),
+						author: 'Bot',
+						text: 'Something went wrong',
+					} as msgObj,
+				])
+				setSessionId(null)
+				setIsLoading(false)
+				return
+			}
 		} catch (error) {
 			console.error('Error generating text from prompt:', error)
 			setIsLoading(false)
@@ -108,11 +108,13 @@ export default function ChatPage() {
 									: 'bg-blue-500 text-white  max-w-[70%]'
 							)}
 						>
-							<p className='whitespace-pre-wrap'>{msg.text}</p>
+							<p className="whitespace-pre-wrap">{msg.text}</p>
 						</div>
 					</div>
 				))}
-				<div className={clsx('justify-start',isLoading ? 'block':'hidden')}><Loader style={{stroke: '#3B82FC'}} size="large"/></div>
+				<div className={clsx('justify-start', isLoading ? 'block' : 'hidden')}>
+					<Loader style={{ stroke: '#3B82FC' }} size="large" />
+				</div>
 			</div>
 			<form
 				onSubmit={handleFormSubmit}
@@ -135,3 +137,5 @@ export default function ChatPage() {
 		</div>
 	)
 }
+
+export default withAuthenticator(ChatPage)
